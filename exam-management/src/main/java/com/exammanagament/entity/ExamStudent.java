@@ -22,6 +22,10 @@ public class ExamStudent {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
     @Column(name = "point")
     private Integer point;
 
@@ -39,6 +43,14 @@ public class ExamStudent {
 
     public void setExam(Exam exam) {
         this.exam = exam;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public Integer getPoint() {

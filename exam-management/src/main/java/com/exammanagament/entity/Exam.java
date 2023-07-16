@@ -2,9 +2,12 @@ package com.exammanagament.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -25,6 +28,14 @@ public class Exam {
 
     @Column(name = "start_date")
     private Instant startDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private ExamAdmin admin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_type_id")
+    private ExamType examType;
 
     @OneToMany(mappedBy = "exam")
     private Set<ExamQuestion> examQuestions = new LinkedHashSet<>();
@@ -54,6 +65,22 @@ public class Exam {
 
     public void setStartDate(Instant startDate) {
         this.startDate = startDate;
+    }
+
+    public ExamAdmin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(ExamAdmin admin) {
+        this.admin = admin;
+    }
+
+    public ExamType getExamType() {
+        return examType;
+    }
+
+    public void setExamType(ExamType examType) {
+        this.examType = examType;
     }
 
     public Set<ExamQuestion> getExamQuestions() {
