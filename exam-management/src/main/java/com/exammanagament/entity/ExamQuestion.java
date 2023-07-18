@@ -17,8 +17,8 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class ExamQuestion {
     @Id
