@@ -24,7 +24,7 @@ public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "name", length = 30)
     private String name;
@@ -45,7 +45,7 @@ public class Parent {
     private Instant lastLoginDate;
 
     @Column(name = "status")
-    private Byte status;
+    private byte status;
 
     @Column(name = "last_login_ip", length = 30)
     private String lastLoginIp;
