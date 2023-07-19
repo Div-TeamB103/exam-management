@@ -10,11 +10,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "student")
 public class Student {
@@ -60,108 +69,35 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<ExamStudent> examStudents = new LinkedHashSet<>();
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(id, student.id) && Objects.equals(email, student.email) && Objects.equals(password, student.password) && Objects.equals(joinDate, student.joinDate) && Objects.equals(birthDate, student.birthDate) && Objects.equals(phoneNumber, student.phoneNumber) && Objects.equals(parent, student.parent) && Objects.equals(status, student.status) && Objects.equals(lastLoginDate, student.lastLoginDate) && Objects.equals(lastLoginIp, student.lastLoginIp) && Objects.equals(name, student.name) && Objects.equals(surname, student.surname) && Objects.equals(examStudents, student.examStudents);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, joinDate, birthDate, phoneNumber, parent, status, lastLoginDate, lastLoginIp, name, surname, examStudents);
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", joinDate=" + joinDate +
+                ", birthDate=" + birthDate +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", parent=" + parent +
+                ", status=" + status +
+                ", lastLoginDate=" + lastLoginDate +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", examStudents=" + examStudents +
+                '}';
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Instant getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Instant joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public Instant getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Instant birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Parent getParent() {
-        return parent;
-    }
-
-    public void setParent(Parent parent) {
-        this.parent = parent;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Instant getLastLoginDate() {
-        return lastLoginDate;
-    }
-
-    public void setLastLoginDate(Instant lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
-    }
-
-    public String getLastLoginIp() {
-        return lastLoginIp;
-    }
-
-    public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public Set<ExamStudent> getExamStudents() {
-        return examStudents;
-    }
-
-    public void setExamStudents(Set<ExamStudent> examStudents) {
-        this.examStudents = examStudents;
-    }
-
 }
