@@ -61,4 +61,17 @@ public class Exam {
     public int hashCode() {
         return Objects.hash(id, examName, startDate);
     }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", examName='" + examName + '\'' +
+                ", startDate=" + startDate +
+                ", admin=" + admin +
+                ", examType=" + examType +
+                ", examQuestions=" + examQuestions +
+                ", examStudents=" + examStudents +
+                '}';
+    }
 }
