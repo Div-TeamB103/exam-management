@@ -36,7 +36,7 @@ public class Answer {
     private Question question;
 
     @Column(name = "is_correct")
-    private Boolean isCorrect;
+    private boolean isCorrect;
 
     @Override
     public boolean equals(Object o) {
