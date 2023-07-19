@@ -9,7 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.Objects;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "answer")
 public class Answer {
@@ -18,7 +28,7 @@ public class Answer {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "`option`")
+    @Column(name = "option")
     private String option;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,36 +38,27 @@ public class Answer {
     @Column(name = "is_correct")
     private Byte isCorrect;
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Answer answer = (Answer) o;
+        return Objects.equals(id, answer.id) && Objects.equals(option, answer.option) &&
+                Objects.equals(question, answer.question) && Objects.equals(isCorrect, answer.isCorrect);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, option, question, isCorrect);
     }
 
-    public String getOption() {
-        return option;
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", option='" + option + '\'' +
+                ", question=" + question +
+                ", isCorrect=" + isCorrect +
+                '}';
     }
-
-    public void setOption(String option) {
-        this.option = option;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
-    public Byte getIsCorrect() {
-        return isCorrect;
-    }
-
-    public void setIsCorrect(Byte isCorrect) {
-        this.isCorrect = isCorrect;
-    }
-
 }
