@@ -10,11 +10,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
-
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "exam")
 public class Exam {
@@ -43,60 +49,29 @@ public class Exam {
     @OneToMany(mappedBy = "exam")
     private Set<ExamStudent> examStudents = new LinkedHashSet<>();
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Exam exam = (Exam) o;
+        return Objects.equals(id, exam.id) && Objects.equals(examName, exam.examName) && Objects.equals(startDate, exam.startDate);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, examName, startDate);
     }
 
-    public String getExamName() {
-        return examName;
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", examName='" + examName + '\'' +
+                ", startDate=" + startDate +
+                ", admin=" + admin +
+                ", examType=" + examType +
+                ", examQuestions=" + examQuestions +
+                ", examStudents=" + examStudents +
+                '}';
     }
-
-    public void setExamName(String examName) {
-        this.examName = examName;
-    }
-
-    public Instant getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Instant startDate) {
-        this.startDate = startDate;
-    }
-
-    public ExamAdmin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(ExamAdmin admin) {
-        this.admin = admin;
-    }
-
-    public ExamType getExamType() {
-        return examType;
-    }
-
-    public void setExamType(ExamType examType) {
-        this.examType = examType;
-    }
-
-    public Set<ExamQuestion> getExamQuestions() {
-        return examQuestions;
-    }
-
-    public void setExamQuestions(Set<ExamQuestion> examQuestions) {
-        this.examQuestions = examQuestions;
-    }
-
-    public Set<ExamStudent> getExamStudents() {
-        return examStudents;
-    }
-
-    public void setExamStudents(Set<ExamStudent> examStudents) {
-        this.examStudents = examStudents;
-    }
-
 }
