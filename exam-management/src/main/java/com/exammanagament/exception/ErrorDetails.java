@@ -3,10 +3,9 @@ package com.exammanagament.exception;
 import java.util.Date;
 
 public class ErrorDetails {
-    private Date timeStamp;
-    private String message;
-    private String details;
-
+    private final Date timeStamp;
+    private final String message;
+    private final String details;
 
     public ErrorDetails(Date timeStamp, String message, String details) {
         super();
@@ -26,5 +25,4 @@ public class ErrorDetails {
     public String getDetails() {
         return details;
     }
-
 }
