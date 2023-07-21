@@ -5,12 +5,14 @@ import com.exammanagament.entity.Answer;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+
 @Mapper(componentModel = "spring")
 public interface AnswerMap {
     AnswerMap Mapper = Mappers.getMapper(AnswerMap.class);
 
-    AnswerDto dtotoAnswer(AnswerDto answerDto);
+    AnswerDto mapToAnswerDto(Answer answer);
 
-    Answer answertoDto(Answer answer);
+    Answer mapToAnswer(AnswerDto answerDto);
+
 
 }
