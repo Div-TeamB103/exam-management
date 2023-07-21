@@ -1,4 +1,4 @@
-package com.exammanagament.mapper;
+package com.exammanagament.map;
 
 import com.exammanagament.dto.ExamDTO;
 import com.exammanagament.entity.Exam;
