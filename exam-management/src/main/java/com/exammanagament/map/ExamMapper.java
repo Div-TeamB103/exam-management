@@ -2,16 +2,24 @@ package com.exammanagament.map;
 
 import com.exammanagament.dto.ExamDTO;
 import com.exammanagament.entity.Exam;
+import org.mapstruct.InheritConfiguration;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ExamMapper {
-    Exam mapToExamEntity(ExamDTO examDTO);
 
-    List<ExamDTO> mapToExamDtoList(List<Exam> exams);
+    @Mapping(source = "admin.id", target = "adminId")
+    @Mapping(source = "examType.id", target = "examTypeId")
+    @Mapping(source = "examQuestions", target = "examQuestionIds")
+    @Mapping(source = "examStudents", target = "examStudentIds")
+    ExamDTO examToExamDTO(Exam exam);
 
-    ExamDTO mapToExamDto(Exam exam);
+
+    @InheritInverseConfiguration
+    Exam examDTOtoExam(ExamDTO examDto);
 
 }
