@@ -12,14 +12,17 @@ import java.util.List;
 @RequestMapping("/answer")
 public class AnswerController {
     private final AnswerServiceImpl answerServiceImpl;
+
     @PostMapping
     public AnswerDto createAnswer(@RequestBody AnswerDto answerDto) {
-       return answerServiceImpl.createAnswer(answerDto);
+        return answerServiceImpl.createAnswer(answerDto);
     }
+
     @GetMapping
     public List<AnswerDto> readAllAnswer() {
         return answerServiceImpl.readAllAnswer();
     }
+
     @GetMapping("/{id}")
     public AnswerDto readById(@PathVariable long id) {
         return answerServiceImpl.readById(id);
@@ -27,7 +30,7 @@ public class AnswerController {
 
     @PostMapping("/{id}")
     public AnswerDto updateAnswer(@PathVariable long id, @RequestBody AnswerDto answerDto) {
-        return answerServiceImpl.updateAnswer(id,answerDto);
+        return answerServiceImpl.updateAnswer(id, answerDto);
     }
 
     @DeleteMapping("/{id}")

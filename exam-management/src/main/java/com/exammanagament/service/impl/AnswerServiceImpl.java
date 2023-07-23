@@ -24,7 +24,8 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<AnswerDto> readAllAnswer() {
-        return repository.findAll().stream()
+        return repository.findAll()
+                .stream()
                 .map(answerMap::mapToAnswerDto)
                 .toList();
     }
@@ -46,6 +47,7 @@ public class AnswerServiceImpl implements AnswerService {
         } else {
             return null;
         }
+
     }
 
     @Override
