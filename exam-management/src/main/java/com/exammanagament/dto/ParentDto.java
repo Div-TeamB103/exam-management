@@ -8,7 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class ParentDto {
+public class ParentDto{
+    private Long id;
     private String name;
     private String surname;
     private String email;

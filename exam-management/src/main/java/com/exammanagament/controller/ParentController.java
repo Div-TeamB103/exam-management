@@ -11,39 +11,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping("/parent")
 @RequiredArgsConstructor
-public class ParentController  {
-    private final ParentService service;
+public class ParentController {
+    private final ParentServiceInterface service;
 
     @GetMapping
-
-    public List<ParentDto> getAllParent(ParentDto parentDto) throws NullPointerException {
-        return service.getAllParent(parentDto);
+    public List<ParentDto> getAllParent() {
+        return service.getAllParent();
     }
 
-    @GetMapping("/byEmail")
-
-    public Optional<ParentDto> getParenyByEmail(ParentDto parentDto) throws NullPointerException, NotFoundUserException {
-        return service.getParenyByEmail(parentDto);
+    @GetMapping("/{email}")
+    public Optional<ParentDto> getParenyByEmail(@RequestBody ParentDto parentDto, @PathVariable String email) throws NotFoundUserException {
+        return service.getParenyByEmail(parentDto, email);
     }
 
-    @PostMapping
-
-    public ParentDto createParent(Parent parent) throws DublicateUserException {
-        return service.createParent(parent);
+    @PostMapping("/{email}")
+    public ParentDto createParent(@RequestBody ParentDto parentDto, @PathVariable String email) throws DublicateUserException {
+        return service.createParent(parentDto, email);
     }
 
-    @PutMapping
-
-    public ParentDto updateParent(ParentDto parentDto) throws NotFoundUserException {
-        return service.updateParent(parentDto);
+    @PutMapping("/{id}")
+    public ParentDto updateParent(@RequestBody ParentDto parentDto, @PathVariable Long id) throws NotFoundUserException {
+        return service.updateParent(parentDto, id);
     }
 
-    @DeleteMapping
-
-    public ParentDto deleteParent(ParentDto parentDto) throws NotFoundUserException {
-        return service.updateParent(parentDto);
+    @DeleteMapping("/{id}")
+    public ParentDto deleteParent(@RequestBody ParentDto parentDto, @PathVariable Long id) throws NotFoundUserException {
+        return service.updateParent(parentDto, id);
     }
 }

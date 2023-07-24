@@ -8,9 +8,9 @@ import com.exammanagament.map.ParentMap;
 import com.exammanagament.repository.ParentRepository;
 import com.exammanagament.service.ParentServiceInterface;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,17 +21,16 @@ public class ParentService implements ParentServiceInterface {
     private final ParentMap map;
 
     @Override
-    public List<ParentDto> getAllParent(ParentDto parentDto) throws NullPointerException {
-        if (parentDto == null) {
+    public List<ParentDto> getAllParent() {
+        List<Parent> allParent = repository.findAll();
+        if (allParent == null) {
             throw new NullPointerException("Hec bir istifadeci tapilmadi");
         }
-        Parent parent = map.toParent(parentDto);
-        repository.findAll((Pageable) parent);
-        return (List<ParentDto>) map.toDto(parent);
+        return Collections.singletonList(map.toDto((Parent) allParent));
     }
 
     @Override
-    public Optional<ParentDto> getParenyByEmail(ParentDto parentDto) throws NotFoundUserException, NullPointerException {
+    public Optional<ParentDto> getParenyByEmail(ParentDto parentDto, String email) throws NotFoundUserException, NullPointerException {
         if (parentDto == null) {
             throw new NullPointerException("Hec bir istifadeci tapilmadi");
         }
@@ -40,24 +39,25 @@ public class ParentService implements ParentServiceInterface {
             throw new NotFoundUserException("Bu email adresli istifadeci tapilmadi");
         }
         Parent parent = map.toParent(parentDto);
-        repository.findByEmail(parent.getEmail());
+        repository.findByEmail(email);
         return Optional.ofNullable(map.toDto(parent));
     }
 
     @Override
-    public ParentDto createParent(Parent parent) throws DublicateUserException {
-        Optional<Parent> searchDto = repository.findByEmail(parent.getEmail());
+    public ParentDto createParent(ParentDto parentDto,String email) throws DublicateUserException {
+        Optional<Parent> searchDto = repository.findByEmail(email);
         if (searchDto.isPresent()) {
             throw new DublicateUserException("Bu email adresli istifadeci movcuddur");
         } else {
+            Parent parent = map.toParent(parentDto);
             repository.save(parent);
             return map.toDto(parent);
         }
     }
 
     @Override
-    public ParentDto updateParent(ParentDto parentDto) throws NotFoundUserException {
-        Optional<Parent> searchDto = repository.findByEmail(parentDto.getEmail());
+    public ParentDto updateParent(ParentDto parentDto, Long id) throws NotFoundUserException {
+        Optional<Parent> searchDto = repository.findById(id);
         if (searchDto.isPresent()) {
             throw new NotFoundUserException("Bu email adresli istifadeci movcud deyildir.");
         }
@@ -68,8 +68,8 @@ public class ParentService implements ParentServiceInterface {
     }
 
     @Override
-    public ParentDto deleteParent(ParentDto parentDto) throws NotFoundUserException {
-        Optional<Parent> searchDto = repository.findByEmail(parentDto.getEmail());
+    public ParentDto deleteParent(ParentDto parentDto, Long id) throws NotFoundUserException {
+        Optional<Parent> searchDto = repository.findById(id);
         if (searchDto.isPresent()) {
             throw new NotFoundUserException("Bu email adresli istifadeci movcud deyildir.");
         }

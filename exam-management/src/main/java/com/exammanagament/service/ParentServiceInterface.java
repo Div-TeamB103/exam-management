@@ -11,9 +11,9 @@ import java.util.Optional;
 
 
 public interface ParentServiceInterface {
-    public List<ParentDto> getAllParent(ParentDto parentDto) throws NullPointerException;
-    public Optional<ParentDto> getParenyByEmail(ParentDto parentDto) throws NullPointerException, NotFoundUserException;
-    public ParentDto createParent(Parent parent) throws DublicateUserException;
-    ParentDto updateParent(ParentDto parentDto) throws NotFoundUserException;
-    ParentDto deleteParent(ParentDto parentDto) throws NotFoundUserException;
+    public List<ParentDto> getAllParent() ;
+    public Optional<ParentDto> getParenyByEmail(ParentDto parentDto, String email) throws NullPointerException, NotFoundUserException;
+    public ParentDto createParent(ParentDto parentDto, String email) throws DublicateUserException;
+    ParentDto updateParent(ParentDto parentDto, Long id) throws NotFoundUserException;
+    ParentDto deleteParent(ParentDto parentDto, Long id) throws NotFoundUserException;
 }
