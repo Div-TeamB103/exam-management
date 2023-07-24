@@ -12,7 +12,7 @@ import org.mapstruct.Mapping;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper()
 public interface ExamMapper {
 
     @Mapping(source = "admin.id", target = "adminId")
