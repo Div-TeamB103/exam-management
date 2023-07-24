@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AnswerMap {
 
+
     @Mapping(target = "isCorrect", source = "correct")
     AnswerDto mapToAnswerDto(Answer answer);
 
