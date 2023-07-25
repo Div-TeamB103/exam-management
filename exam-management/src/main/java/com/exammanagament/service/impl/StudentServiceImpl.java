@@ -20,14 +20,12 @@ private final StudentMap studentMap;
     public StudentDto createStudent(StudentDto studentDto) {
         return studentMap.mapToStudentDto(repository.save(studentMap.mapToStudent(studentDto))) ;
     }
-
     @Override
     public List<StudentDto> readAllStudents() {
         return repository.findAll().stream()
                 .map(studentMap::mapToStudentDto)
                 .toList();
     }
-
     @Override
     public StudentDto updateStudentGetById(Long id, StudentDto studentDto) {
         Student oldStudent=repository.findById(id).orElse(null);
@@ -42,7 +40,6 @@ private final StudentMap studentMap;
         }else {
             return null;
         }
-
     }
 
     @Override
