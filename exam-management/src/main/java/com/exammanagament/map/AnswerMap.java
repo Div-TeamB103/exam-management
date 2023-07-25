@@ -3,14 +3,18 @@ package com.exammanagament.map;
 import com.exammanagament.dto.AnswerDto;
 import com.exammanagament.entity.Answer;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMap {
-    AnswerMap Mapper = Mappers.getMapper(AnswerMap.class);
 
-    AnswerDto dtotoAnswer(AnswerDto answerDto);
 
-    Answer answertoDto(Answer answer);
+    @Mapping(target = "isCorrect", source = "correct")
+    AnswerDto mapToAnswerDto(Answer answer);
+
+    @Mapping(target = "correct", source = "isCorrect")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "question", ignore = true)
+    Answer mapToAnswer(AnswerDto answerDto);
 
 }
