@@ -6,8 +6,14 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class ExamAdminDto {
     private String username;
+
+    @Override
+    public String toString() {
+        return "ExamAdminDto{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }
