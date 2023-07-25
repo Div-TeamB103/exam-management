@@ -24,22 +24,22 @@ public class ParentController {
     }
 
     @GetMapping("/{email}")
-    public Optional<ParentDto> getParenyByEmail(@RequestBody ParentDto parentDto, @PathVariable String email) throws NotFoundUserException {
-        return service.getParenyByEmail(parentDto, email);
+    public Optional<ParentDto> getParenyByEmail(@PathVariable String email) throws NotFoundUserException {
+        return service.getParenyByEmail( email);
     }
 
     @PostMapping("/{email}")
-    public ParentDto createParent(@RequestBody ParentDto parentDto, @PathVariable String email) throws DublicateUserException {
-        return service.createParent(parentDto, email);
+    public ParentDto createParent(@RequestBody ParentDto parentDto) throws DublicateUserException {
+        return service.createParent(parentDto);
     }
 
     @PutMapping("/{id}")
-    public ParentDto updateParent(@RequestBody ParentDto parentDto, @PathVariable Long id) throws NotFoundUserException {
-        return service.updateParent(parentDto, id);
+    public ParentDto updateParent(@PathVariable Long id) throws NotFoundUserException {
+        return service.updateParent(id);
     }
 
     @DeleteMapping("/{id}")
-    public ParentDto deleteParent(@RequestBody ParentDto parentDto, @PathVariable Long id) throws NotFoundUserException {
-        return service.updateParent(parentDto, id);
+    public ParentDto deleteParent(@PathVariable Long id) throws NotFoundUserException {
+        return service.deleteParent(id);
     }
 }
