@@ -10,7 +10,10 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
@@ -42,7 +45,7 @@ public class Parent {
     private String phoneNumber;
 
     @Column(name = "last_login_date")
-    private Instant lastLoginDate;
+    private LocalDateTime lastLoginDate;
 
     @Column(name = "status")
     private byte status;
@@ -51,6 +54,5 @@ public class Parent {
     private String lastLoginIp;
 
     @OneToMany(mappedBy = "parent")
-    private Set<Student> students = new LinkedHashSet<>();
-
+    private List<Student> students = new ArrayList<>();
     }

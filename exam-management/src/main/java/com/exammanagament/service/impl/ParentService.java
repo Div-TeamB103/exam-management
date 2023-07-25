@@ -6,9 +6,9 @@ import com.exammanagament.map.ParentMap;
 import com.exammanagament.repository.ParentRepository;
 import com.exammanagament.service.ParentServiceInterface;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,60 +19,56 @@ public class ParentService implements ParentServiceInterface {
     private final ParentMap map;
 
     @Override
-    public List<ParentDto> getAllParent(ParentDto parentDto) throws NullPointerException {
-        if (parentDto == null) {
+    public List<ParentDto> getAllParent() {
+        List<Parent> allParent = repository.findAll();
+        if (allParent == null) {
             throw new NullPointerException("Hec bir istifadeci tapilmadi");
         }
-        Parent parent = map.toParent(parentDto);
-        repository.findAll((Pageable) parent);
-        return (List<ParentDto>) map.toDto(parent);
+        return Collections.singletonList(map.toDto((Parent) allParent));
     }
 
     @Override
-    public Optional<ParentDto> getParenyByEmail(ParentDto parentDto) throws NotFoundUserException, NullPointerException {
-        if (parentDto == null) {
+    public Optional<ParentDto> getParenyByEmail(String email) throws NotFoundUserException, NullPointerException {
+        Optional<Parent> searchParent = repository.findByEmail(email);
+        if (searchParent == null) {
             throw new NullPointerException("Hec bir istifadeci tapilmadi");
         }
-        Optional<Parent> searchDto = repository.findByEmail(parentDto.getEmail());
-        if (searchDto.isPresent()) {
+        if (searchParent.isPresent()) {
             throw new NotFoundUserException("Bu email adresli istifadeci tapilmadi");
         }
-        Parent parent = map.toParent(parentDto);
-        repository.findByEmail(parent.getEmail());
-        return Optional.ofNullable(map.toDto(parent));
+        return Optional.ofNullable(map.toDto(searchParent.get()));
     }
 
     @Override
-    public ParentDto createParent(Parent parent) throws DublicateUserException {
-        Optional<Parent> searchDto = repository.findByEmail(parent.getEmail());
-        if (searchDto.isPresent()) {
+    public ParentDto createParent(ParentDto parentDto) throws DublicateUserException {
+        Optional<Parent> searchParent = repository.findByEmail(parentDto.getEmail());
+        if (searchParent.isPresent()) {
             throw new DublicateUserException("Bu email adresli istifadeci movcuddur");
         } else {
+            Parent parent = map.toParent(parentDto);
             repository.save(parent);
             return map.toDto(parent);
         }
     }
 
     @Override
-    public ParentDto updateParent(ParentDto parentDto) throws NotFoundUserException {
-        Optional<Parent> searchDto = repository.findByEmail(parentDto.getEmail());
-        if (searchDto.isPresent()) {
+    public ParentDto updateParent(Long id) throws NotFoundUserException {
+        Optional<Parent> searchParent = repository.findById(id);
+        if (searchParent.isPresent()) {
             throw new NotFoundUserException("Bu email adresli istifadeci movcud deyildir.");
         }
-        Parent parent = map.toParent(parentDto);
-        repository.save(parent);
-        return map.toDto(parent);
+        repository.save(searchParent.get());
+        return map.toDto(searchParent.get());
 
     }
 
     @Override
-    public ParentDto deleteParent(ParentDto parentDto) throws NotFoundUserException {
-        Optional<Parent> searchDto = repository.findByEmail(parentDto.getEmail());
-        if (searchDto.isPresent()) {
-            throw new NotFoundUserException("Bu email adresli istifadeci movcud deyildir.");
+    public ParentDto deleteParent(Long id) throws NotFoundUserException {
+       Optional<Parent> searchParent = repository.findById(id);
+        if (searchParent.isPresent()) {
+            throw new NotFoundUserException("Bu Id de istifadeci movcud deyildir.");
         }
-        Parent parent = map.toParent(parentDto);
-        repository.delete(parent);
-        return map.toDto(parent);
+        repository.delete(searchParent.get());
+        return null;
     }
 }

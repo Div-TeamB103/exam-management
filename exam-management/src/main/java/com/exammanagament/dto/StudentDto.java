@@ -13,6 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDto {
+    private Long id;
     private String email;
     private LocalDateTime birth_date;
     private String phone_number;
