@@ -1,7 +1,6 @@
 package com.exammanagament.service.impl;
 
 import com.exammanagament.dto.ExamDTO;
-import com.exammanagament.entity.Exam;
 import com.exammanagament.map.ExamMapper;
 import com.exammanagament.repository.ExamRepository;
 import com.exammanagament.service.ExamService;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,23 +32,24 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public ExamDTO updateById(Long id, ExamDTO examDTO) {
+    public ExamDTO updateById(Long id, ExamDTO examDTO) throws UserNotFoundExcemtion {
         ExamDTO old = mapper.examToExamDTO(repository.findById(id).orElse(null));
+        if (old!=null){
         old.setAdminId(examDTO.getAdminId());
         old.setExamTypeId(examDTO.getExamTypeId());
         old.setStartDate(examDTO.getStartDate());
         old.setExamName(examDTO.getExamName());
         old.setExamQuestionIds(examDTO.getExamQuestionIds());
         old.setExamStudentIds(examDTO.getExamStudentIds());
-        return mapper.examToExamDTO(repository.save(mapper.examDTOtoExam(old)));
+        return mapper.examToExamDTO(repository.save(mapper.examDTOtoExam(old)));}
+        throw new UserNotFoundExcemtion("Could not find any users with id");
     }
 
     @Override
-    public String deleteById(Long id) {
+    public String deleteById(Long id) throws UserNotFoundExcemtion {
         if (repository.existsById(id)){
             repository.deleteById(id);
-            return id+" -li silindi";
         }
-        else {return id+" -li tapilmadi";}
+        throw new UserNotFoundExcemtion("Could not find any users with id");
     }
 }
