@@ -30,17 +30,15 @@ private final StudentMap studentMap;
 
     @Override
     public StudentDto updateStudentGetById(Long id, StudentDto studentDto) {
-        Student oldStudent1=repository.findById(id).orElse(null);
-        StudentDto oldStudent = studentMap.mapToStudentDto(oldStudent1);
+        Student oldStudent=repository.findById(id).orElse(null);
         if (oldStudent != null){
-            oldStudent.setEmail(studentDto.getEmail());
-            oldStudent.setBirth_date(studentDto.getBirth_date());
-            oldStudent.setPhone_number(studentDto.getPhone_number());
-            oldStudent.setStatus(studentDto.getStatus());
-            oldStudent.setName(studentDto.getName());
-            oldStudent.setSurname(studentDto.getSurname());
-
-            return studentMap.mapToStudentDto(repository.save(studentMap.mapToStudent(oldStudent)));
+            studentDto.setEmail(studentDto.getEmail());
+            studentDto.setBirth_date(studentDto.getBirth_date());
+            studentDto.setPhone_number(studentDto.getPhone_number());
+            studentDto.setStatus(studentDto.getStatus());
+            studentDto.setName(studentDto.getName());
+            studentDto.setSurname(studentDto.getSurname());
+            return studentMap.mapToStudentDto(repository.save(studentMap.mapToStudent(studentDto)));
         }else {
             return null;
         }
