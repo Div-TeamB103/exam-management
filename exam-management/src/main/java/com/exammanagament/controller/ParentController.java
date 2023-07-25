@@ -42,4 +42,5 @@ public class ParentController {
     public ParentDto deleteParent(@PathVariable Long id) throws NotFoundUserException {
         return service.deleteParent(id);
     }
+
 }

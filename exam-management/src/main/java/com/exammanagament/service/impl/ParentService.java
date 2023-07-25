@@ -2,8 +2,6 @@ package com.exammanagament.service.impl;
 
 import com.exammanagament.dto.ParentDto;
 import com.exammanagament.entity.Parent;
-import com.exammanagament.exception.DublicateUserException;
-import com.exammanagament.exception.NotFoundUserException;
 import com.exammanagament.map.ParentMap;
 import com.exammanagament.repository.ParentRepository;
 import com.exammanagament.service.ParentServiceInterface;
