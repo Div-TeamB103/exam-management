@@ -2,6 +2,8 @@ package com.exammanagament.service.impl;
 
 import com.exammanagament.dto.AnswerDto;
 import com.exammanagament.entity.Answer;
+import com.exammanagament.exception.NotFoundException;
+import com.exammanagament.exception.NotFoundUserException;
 import com.exammanagament.map.AnswerMap;
 import com.exammanagament.repository.AnswerRepository;
 import com.exammanagament.service.AnswerService;
@@ -36,25 +38,25 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDto updateAnswer(long id, AnswerDto answerDto) {
+    public AnswerDto updateAnswer(long id, AnswerDto answerDto) throws NotFoundUserException {
         Answer oldAnswer1 = repository.findById(id).orElse(null);
         AnswerDto oldAnswer = answerMap.mapToAnswerDto(oldAnswer1);
         if (oldAnswer != null) {
             oldAnswer.setOption(answerDto.getOption());
-            oldAnswer.setIsCorrect(answerDto.getIsCorrect());
+            oldAnswer.setCorrect(answerDto.isCorrect());
             return answerMap.mapToAnswerDto(repository.save(answerMap.mapToAnswer(oldAnswer)));
 
-        } else {
-            return null;
-        }
+        } throw new NotFoundException("Not found");
+
 
     }
 
     @Override
-    public void deleteAnswer(long id) {
+    public void deleteAnswer(long id) throws NotFoundUserException {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         }
+        throw new NotFoundException("Not found");
 
     }
 }

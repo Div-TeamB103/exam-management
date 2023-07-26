@@ -1,6 +1,9 @@
 package com.exammanagament.dto;
 
+import com.exammanagament.entity.Question;
 import lombok.*;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -9,8 +12,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerDto {
-    public String option;
-    public String isCorrect;
+    private String option;
+    private boolean isCorrect;
+    private QuestionDTO question;
+
+
+
 
 
 }
