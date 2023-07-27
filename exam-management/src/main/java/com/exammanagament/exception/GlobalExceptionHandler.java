@@ -1,6 +1,7 @@
 package com.exammanagament.exception;
 
 
+
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +24,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  @NotNull HttpHeaders headers,
-                                                                  @NotNull HttpStatusCode status,
-                                                                  @NotNull WebRequest request
+                                                                   HttpHeaders headers,
+                                                                   HttpStatusCode status,
+                                                                  WebRequest request
     ) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
@@ -36,10 +38,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleException(NotFoundException exc) {
+    public ResponseEntity<ErrorDetails> handleException(NotFoundException exc ) {
         ErrorDetails error = new ErrorDetails(new Date(), exc.getMessage(), exc.getCause().toString());
         exc.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccesDeniedException(AccessDeniedException exp, WebRequest request) {
+        ErrorDetails errorDetail = new ErrorDetails(new Date(), exp.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.UNAUTHORIZED);
+    }
+
+
 
 }

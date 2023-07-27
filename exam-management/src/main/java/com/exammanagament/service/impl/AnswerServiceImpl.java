@@ -41,7 +41,7 @@ public class AnswerServiceImpl implements AnswerService {
         AnswerDto oldAnswer = answerMap.mapToAnswerDto(oldAnswer1);
         if (oldAnswer != null) {
             oldAnswer.setOption(answerDto.getOption());
-            oldAnswer.setIsCorrect(answerDto.getIsCorrect());
+            oldAnswer.setCorrect(answerDto.isCorrect());
             return answerMap.mapToAnswerDto(repository.save(answerMap.mapToAnswer(oldAnswer)));
 
         } else {

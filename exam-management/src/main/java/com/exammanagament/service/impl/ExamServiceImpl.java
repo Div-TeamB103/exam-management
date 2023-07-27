@@ -1,6 +1,7 @@
 package com.exammanagament.service.impl;
 
 import com.exammanagament.dto.ExamDTO;
+import com.exammanagament.exception.UserNotFoundExcemtion;
 import com.exammanagament.map.ExamMapper;
 import com.exammanagament.repository.ExamRepository;
 import com.exammanagament.service.ExamService;

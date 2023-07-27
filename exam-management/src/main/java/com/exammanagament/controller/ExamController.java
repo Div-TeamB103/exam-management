@@ -3,17 +3,20 @@ package com.exammanagament.controller;
 
 import com.exammanagament.dto.ExamDTO;
 import com.exammanagament.service.ExamService;
-import com.exammanagament.service.impl.UserNotFoundExcemtion;
-import lombok.RequiredArgsConstructor;
+import com.exammanagament.exception.UserNotFoundExcemtion;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping
-@RequiredArgsConstructor
+
 public class ExamController {
-    private final ExamService service;
+    private  ExamService service;
+
+    public ExamController(ExamService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ExamDTO creat(ExamDTO examDTO){

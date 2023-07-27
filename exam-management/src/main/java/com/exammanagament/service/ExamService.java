@@ -2,7 +2,7 @@
 package com.exammanagament.service;
 
 import com.exammanagament.dto.ExamDTO;
-import com.exammanagament.service.impl.UserNotFoundExcemtion;
+import com.exammanagament.exception.UserNotFoundExcemtion;
 
 import java.util.List;
 

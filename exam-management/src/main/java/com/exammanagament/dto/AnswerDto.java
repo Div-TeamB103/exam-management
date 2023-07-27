@@ -9,8 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerDto {
-    public String option;
-    public String isCorrect;
+
+    private Long id;
+    private String option;
+    private boolean isCorrect;
 
 
 }

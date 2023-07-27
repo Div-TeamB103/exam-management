@@ -3,10 +3,12 @@ package com.exammanagament.controller;
 import com.exammanagament.dto.ParentDto;
 import com.exammanagament.entity.Parent;
 import com.exammanagament.exception.DublicateUserException;
+import com.exammanagament.exception.NotFoundException;
 import com.exammanagament.exception.NotFoundUserException;
 import com.exammanagament.service.ParentServiceInterface;
 import com.exammanagament.service.impl.ParentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +26,16 @@ public class ParentController {
     }
 
     @GetMapping("/{email}")
-    public Optional<ParentDto> getParenyByEmail(@PathVariable String email) throws NotFoundUserException {
-        return service.getParenyByEmail( email);
+    public ResponseEntity<ParentDto> getParenyByEmail(@PathVariable String email) throws NotFoundException  {
+      ParentDto parent = service.getParenyByEmail(email);
+    return ResponseEntity.ok(parent);
+
+
+
+
+
+
+
     }
 
     @PostMapping("/{email}")

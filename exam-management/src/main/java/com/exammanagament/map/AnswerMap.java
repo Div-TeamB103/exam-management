@@ -5,14 +5,14 @@ import com.exammanagament.entity.Answer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring" , uses = QuestionMapper.class)
 public interface AnswerMap {
 
 
-    @Mapping(target = "isCorrect", source = "correct")
+
     AnswerDto mapToAnswerDto(Answer answer);
 
-    @Mapping(target = "correct", source = "isCorrect")
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "question", ignore = true)
     Answer mapToAnswer(AnswerDto answerDto);

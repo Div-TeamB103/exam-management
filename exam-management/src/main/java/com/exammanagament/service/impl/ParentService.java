@@ -3,6 +3,7 @@ package com.exammanagament.service.impl;
 import com.exammanagament.dto.ParentDto;
 import com.exammanagament.entity.Parent;
 import com.exammanagament.exception.DublicateUserException;
+import com.exammanagament.exception.NotFoundException;
 import com.exammanagament.exception.NotFoundUserException;
 import com.exammanagament.map.ParentMap;
 import com.exammanagament.repository.ParentRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,22 +25,16 @@ public class ParentService implements ParentServiceInterface {
     @Override
     public List<ParentDto> getAllParent() {
         List<Parent> allParent = repository.findAll();
-        if (allParent == null) {
-            throw new NullPointerException("Hec bir istifadeci tapilmadi");
-        }
-        return Collections.singletonList(map.toDto((Parent) allParent));
+
+        return allParent.stream().map(parent -> map.toDto(parent)).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<ParentDto> getParenyByEmail(String email) throws NotFoundUserException, NullPointerException {
-        Optional<Parent> searchParent = repository.findByEmail(email);
-        if (searchParent == null) {
-            throw new NullPointerException("Hec bir istifadeci tapilmadi");
-        }
-        if (searchParent.isPresent()) {
-            throw new NotFoundUserException("Bu email adresli istifadeci tapilmadi");
-        }
-        return Optional.ofNullable(map.toDto(searchParent.get()));
+    public ParentDto getParenyByEmail(String email)  {
+        Parent searchParent = repository.findByEmail(email).orElseThrow(()->new NotFoundException("Istifadeci tapilmadi"));
+
+
+        return map.toDto(searchParent);
     }
 
     @Override
