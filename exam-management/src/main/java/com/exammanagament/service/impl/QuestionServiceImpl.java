@@ -1,43 +1,60 @@
 package com.exammanagament.service.impl;
 
+import com.exammanagament.dto.QuestionDTO;
 import com.exammanagament.entity.Question;
+import com.exammanagament.map.QuestionMapper;
 import com.exammanagament.repository.QuestionRepository;
 import com.exammanagament.service.QuestionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
+    private final QuestionMapper mapper;
 
-    @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    @Override
+    public QuestionDTO createQuestion(QuestionDTO questionDTO) {
+        return mapper.questionToQuestionDTO(questionRepository.save(mapper.questionDTOToQuestion(questionDTO)));
     }
 
     @Override
-    public Question createQuestion(Question question) {
-        return questionRepository.save(question);
+    public List<QuestionDTO> getAllQuestions() {
+        return questionRepository.findAll().stream()
+                .map(mapper::questionToQuestionDTO)
+                .toList();
     }
 
     @Override
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
+    public QuestionDTO updateQuestion(Long id, QuestionDTO questionDTO) {
+        Question oldQuestion = questionRepository.findById(id).orElse(null);
+        if (oldQuestion != null) {
+            questionDTO.setQuestionName(questionDTO.getQuestionName());
+            questionDTO.setExamQuestionIds(questionDTO.getExamQuestionIds());
+            questionDTO.setId(questionDTO.getId());
+            questionDTO.setAnswerIds(questionDTO.getAnswerIds());
+            return mapper.questionToQuestionDTO(questionRepository.save(mapper.questionDTOToQuestion(questionDTO)));
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Optional<Question> getQuestionById(Long id) {
-        return questionRepository.findById(id);
+    public String deleteQuestion(Long id) {
+        if (questionRepository.existsById(id)) {
+            questionRepository.deleteById(id);
+            return id + "-li silindi";
+        } else {
+            return id + "-li tapilmadi";
+        }
+    }
+    @Override
+    public QuestionDTO getQuestionById(Long id) {
+        return mapper.questionToQuestionDTO(questionRepository.findById(id).orElse(null));
     }
 
-    @Override
-    public void updateQuestion(Question updateQuestion) {
-          questionRepository.save(updateQuestion);
-    }
-
-    @Override
-    public void deleteQuestion(Long id) {
-             questionRepository.deleteById(id);
-    }
 }
