@@ -16,7 +16,7 @@ public class ExamController {
     private final ExamService service;
 
     @PostMapping
-    public ExamDTO creat(ExamDTO examDTO){
+    public ExamDTO creat(@RequestBody ExamDTO examDTO){
         return service.creat(examDTO);
     }
 
