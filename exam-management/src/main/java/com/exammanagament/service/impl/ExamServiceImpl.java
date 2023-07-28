@@ -6,6 +6,7 @@ import com.exammanagament.repository.ExamRepository;
 import com.exammanagament.service.ExamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ExamServiceImpl implements ExamService {
     private final ExamRepository repository;
     private final ExamMapper mapper;
     @Override
-    public ExamDTO creat(ExamDTO examDTO) {
+    public ExamDTO creat(@RequestBody ExamDTO examDTO) {
         return mapper.examToExamDTO(repository.save(mapper.examDTOtoExam(examDTO)));
     }
 
