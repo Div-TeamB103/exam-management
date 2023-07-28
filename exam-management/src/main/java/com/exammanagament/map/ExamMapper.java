@@ -2,8 +2,10 @@ package com.exammanagament.map;
 
 import com.exammanagament.dto.ExamDTO;
 import com.exammanagament.entity.Exam;
+import com.exammanagament.entity.ExamAdmin;
 import com.exammanagament.entity.ExamQuestion;
 import com.exammanagament.entity.ExamStudent;
+import com.exammanagament.entity.ExamType;
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 @Mapper()
 public interface ExamMapper {
 
-    @Mapping(source = "admin.id", target = "adminId")
+    @Mapping(target = "adminId", expression = "java(exam.getAdmin().getId())")
     @Mapping(source = "examType.id", target = "examTypeId")
     @Mapping(target = "examQuestionIds", expression = "java(mapExamQuestionsToIds(exam.getExamQuestions()))")
     @Mapping(target = "examStudentIds", expression = "java(mapExamStudentsToIds(exam.getExamStudents()))")
@@ -55,4 +57,19 @@ public interface ExamMapper {
                 })
                 .collect(Collectors.toSet());
     }
+
+    default ExamType mapLongToExamType(Long examTypeId) {
+        ExamType examType = new ExamType();
+        examType.setId(examTypeId);
+        return examType;
+
+    }
+
+    default ExamAdmin mapLongToExamAdmin(Long examAdminId) {
+        ExamAdmin examAdmin = new ExamAdmin();
+        examAdmin.setId(examAdminId);
+        return examAdmin;
+
+    }
+
 }

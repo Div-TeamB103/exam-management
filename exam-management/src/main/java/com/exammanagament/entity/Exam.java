@@ -35,11 +35,11 @@ public class Exam {
     @Column(name = "start_date")
     private Instant startDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "admin_id")
     private ExamAdmin admin;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_type_id")
     private ExamType examType;
 

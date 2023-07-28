@@ -6,10 +6,11 @@ import com.exammanagament.map.ExamTypeMapper;
 import com.exammanagament.repository.ExamTypeRepository;
 import com.exammanagament.service.ExamTypeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 @RequiredArgsConstructor
 
 public class ExamTypeServiceImpl implements ExamTypeService {

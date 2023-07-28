@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface ExamTypeService {
     ExamTypeDTO create(ExamTypeDTO examTypeDTO);
     ExamTypeDTO update(Long id, ExamTypeDTO examTypeDTO);

@@ -1,5 +1,6 @@
 package com.exammanagament.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import java.util.Objects;
 
@@ -28,11 +30,12 @@ public class Answer {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name = "option")
+    @Column(name = "answer_option")
     private String option;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
+    @ManyToOne(fetch = FetchType.EAGER  )
+    @JoinColumn(name = "question_id" )
+
     private Question question;
 
     @Column(name = "is_correct")
