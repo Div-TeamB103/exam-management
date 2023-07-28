@@ -22,7 +22,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     @Transactional(rollbackFor = {SQLException.class, RuntimeException.class})
-    public void creat(ExamDTO examDTO) {
+    public void create(ExamDTO examDTO) {
         Exam exam = mapper.examDTOtoExam(examDTO);
         try {
             repository.save(exam);
@@ -52,14 +52,12 @@ public class ExamServiceImpl implements ExamService {
     public void updateById(Long id, ExamDTO examDTO) throws NotFoundException {
         Exam exam = repository.findById(id).orElseThrow(() -> new NotFoundException("Belə bir imtahan cədvəli tapılmadı :( "));
 
-        exam.setExamName(examDTO.getExamName());
-        exam.setExamQuestions(mapper.mapExamQuestionIdsToExamQuestions(examDTO.getExamQuestionIds()));
-        exam.setExamStudents(mapper.mapExamStudentIdsToExamStudents(examDTO.getExamStudentIds()));
+        mapper.updateExamFromDTO(examDTO, exam);
         exam.setExamType(mapper.mapLongToExamType(examDTO.getExamTypeId()));
-        exam.setStartDate(examDTO.getStartDate());
         exam.setAdmin(mapper.mapLongToExamAdmin(examDTO.getAdminId()));
 
         try {
+
             repository.save(exam);
         } catch (Exception ex) {
             throw new RuntimeException("Imtahanı yeniləmək mümkün olmadı : " + id, ex);

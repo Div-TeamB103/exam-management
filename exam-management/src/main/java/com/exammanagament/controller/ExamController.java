@@ -23,10 +23,10 @@ public class ExamController {
     }
 
     @PostMapping
-    public HttpStatusCode creat(ExamDTO examDTO){
-         service.creat(examDTO);
+    public ResponseEntity creat(ExamDTO examDTO){
+         service.create(examDTO);
 
-         return HttpStatusCode.valueOf(201);
+         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
@@ -41,16 +41,16 @@ public class ExamController {
     }
 
     @PutMapping("/{id}")
-    public HttpStatusCode updateById(@PathVariable Long id,@RequestBody ExamDTO examDTO) throws UserNotFoundExcemtion {
+    public ResponseEntity updateById(@PathVariable Long id,@RequestBody ExamDTO examDTO) throws UserNotFoundExcemtion {
         service.updateById(id,examDTO);
-        return HttpStatusCode.valueOf(200);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatusCode deleteById(@PathVariable Long id) throws UserNotFoundExcemtion {
+    public ResponseEntity Id(@PathVariable Long id) throws UserNotFoundExcemtion {
         service.deleteById(id);
 
-        return HttpStatusCode.valueOf(204);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

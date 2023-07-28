@@ -1,5 +1,6 @@
 package com.exammanagament.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,11 +27,11 @@ public class ExamQuestion {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     private Question question;
 

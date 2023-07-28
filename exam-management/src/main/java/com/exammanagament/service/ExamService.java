@@ -7,7 +7,7 @@ import com.exammanagament.exception.UserNotFoundExcemtion;
 import java.util.List;
 
 public interface ExamService {
-    void creat(ExamDTO examDTO);
+    void create(ExamDTO examDTO);
     ExamDTO findById(Long id);
     List<ExamDTO> findAll();
     void updateById (Long id, ExamDTO examDTO) throws UserNotFoundExcemtion;

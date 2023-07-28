@@ -1,5 +1,6 @@
 package com.exammanagament.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,10 +44,10 @@ public class Exam {
     @JoinColumn(name = "exam_type_id")
     private ExamType examType;
 
-    @OneToMany(mappedBy = "exam")
+    @OneToMany(mappedBy = "exam"  ,cascade = CascadeType.ALL)
     private Set<ExamQuestion> examQuestions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "exam")
+    @OneToMany(mappedBy = "exam" , cascade = CascadeType.ALL)
     private Set<ExamStudent> examStudents = new LinkedHashSet<>();
 
     @Override
