@@ -8,6 +8,7 @@ import com.exammanagament.exception.NotFoundUserException;
 import com.exammanagament.service.ParentServiceInterface;
 import com.exammanagament.service.impl.ParentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,42 +16,39 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/parent")
+@RequestMapping("/api/v1/parent")
 @RequiredArgsConstructor
 public class ParentController {
     private final ParentServiceInterface service;
 
     @GetMapping
-    public List<ParentDto> getAllParent() {
-        return service.getAllParent();
+    public ResponseEntity<List<ParentDto>> getAllParent() {
+        return  ResponseEntity.ok(service.getAllParent());
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<ParentDto> getParenyByEmail(@PathVariable String email) throws NotFoundException  {
-      ParentDto parent = service.getParenyByEmail(email);
-    return ResponseEntity.ok(parent);
-
-
-
-
-
+    @GetMapping("/{id}")
+    public ResponseEntity<ParentDto> getParentById(@PathVariable Long id) throws NotFoundException {
+        ParentDto parent = service.getParentById(id);
+        return ResponseEntity.ok(parent);
 
 
     }
 
-    @PostMapping("/{email}")
-    public ParentDto createParent(@RequestBody ParentDto parentDto) throws DublicateUserException {
-        return service.createParent(parentDto);
+    @PostMapping()
+    public ResponseEntity createParent(@RequestBody ParentDto parentDto) {
+        service.createParent(parentDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ParentDto updateParent(@PathVariable Long id) throws NotFoundUserException {
-        return service.updateParent(id);
+    public ResponseEntity updateParent(@PathVariable Long id, @RequestBody ParentDto parentDto)  {
+        service.updateParent(id, parentDto);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ParentDto deleteParent(@PathVariable Long id) throws NotFoundUserException {
-        return service.deleteParent(id);
+    public void deleteParent(@PathVariable Long id) throws NotFoundUserException {
+        service.deleteParent(id);
     }
 
 }

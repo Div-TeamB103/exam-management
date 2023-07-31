@@ -48,7 +48,7 @@ public class Parent {
     private LocalDateTime lastLoginDate;
 
     @Column(name = "status")
-    private byte status;
+    private boolean status;
 
     @Column(name = "last_login_ip", length = 30)
     private String lastLoginIp;

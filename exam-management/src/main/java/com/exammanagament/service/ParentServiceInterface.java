@@ -5,16 +5,18 @@ import com.exammanagament.dto.ParentDto;
 import com.exammanagament.exception.DublicateUserException;
 import com.exammanagament.exception.NotFoundException;
 import com.exammanagament.exception.NotFoundUserException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ParentServiceInterface {
 
-    public List<ParentDto> getAllParent() ;
-    public ParentDto getParenyByEmail(String email) throws NotFoundException;
-    public ParentDto createParent(ParentDto parentDto) throws DublicateUserException;
-    ParentDto updateParent(Long id) throws NotFoundUserException;
-    ParentDto deleteParent(Long id) throws NotFoundUserException;
+    List<ParentDto> getAllParent() ;
+    ParentDto getParentById(Long id) throws NotFoundException;
+    void createParent(ParentDto parentDto);
+    void updateParent(Long id, ParentDto parentDto);
+
+    void deleteParent(Long id) throws NotFoundUserException;
 
 }
