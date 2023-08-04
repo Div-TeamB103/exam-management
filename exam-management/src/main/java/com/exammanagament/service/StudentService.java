@@ -5,9 +5,9 @@ import com.exammanagament.dto.StudentDto;
 import java.util.List;
 
 public interface StudentService {
-    StudentDto createStudent (StudentDto studentDto);
+    void createStudent (StudentDto studentDto);
     List<StudentDto>readAllStudents();
-    StudentDto updateStudentGetById(Long id,StudentDto studentDto);
-    String deleteStudentGetById(Long id);
-    StudentDto studentGetById(Long id);
+    void updateStudentGetById(Long id, StudentDto studentDto);
+    void deleteStudentGetById(Long id);
+    StudentDto getStudentById(Long id);
 }

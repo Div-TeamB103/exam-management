@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -38,8 +39,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleException(NotFoundException exc ) {
-        ErrorDetails error = new ErrorDetails(new Date(), exc.getMessage(), exc.getCause().toString());
+    public ResponseEntity<ErrorDetails> handleNotFoundException(NotFoundException exc , WebRequest request) {
+        ErrorDetails error = new ErrorDetails(new Date(), exc.getMessage(), request.getDescription(false));
         exc.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }

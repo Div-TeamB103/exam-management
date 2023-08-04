@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/parent")
+@RequestMapping("/api/v1/parents")
 @RequiredArgsConstructor
 public class ParentController {
     private final ParentServiceInterface service;

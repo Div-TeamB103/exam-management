@@ -25,6 +25,7 @@ public class ExamQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL)

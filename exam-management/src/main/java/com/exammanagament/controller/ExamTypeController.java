@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/examtype")
+@RequestMapping("/api/v1/examtypes")
 @RequiredArgsConstructor
 public class ExamTypeController {
     private final ExamTypeService examTypeService;

@@ -1,41 +1,50 @@
 package com.exammanagament.controller;
 
 import com.exammanagament.dto.StudentDto;
+import com.exammanagament.entity.Student;
 import com.exammanagament.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/v1/students")
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
 
-   @PostMapping
-    public StudentDto creatStudent(@RequestBody StudentDto studentDto){
-        return studentService.createStudent(studentDto);
+    @PostMapping
+    public ResponseEntity creatStudent(@RequestBody StudentDto studentDto) {
+        studentService.createStudent(studentDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-   @GetMapping
-  public List<StudentDto> readAllStudents(){
-  return   studentService.readAllStudents();
-   }
 
-  @GetMapping("/{id}")
+    @GetMapping
+    public List<StudentDto> readAllStudents() {
+        return studentService.readAllStudents();
+    }
 
-    public  StudentDto studentGetById(@PathVariable long id){
-     return   studentService.studentGetById(id);
-  }
-  @PutMapping("/{id}")
-    public  StudentDto updateGetById( @PathVariable long id,@RequestBody StudentDto studentDto ){
-       return  studentService.updateStudentGetById(id,studentDto);
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentDto> studentGetById(@PathVariable(name = "id") long id) {
+        return ResponseEntity.ok(studentService.getStudentById(id));
+    }
 
-  @DeleteMapping("/{id}")
-    public String  deleteStudent(@PathVariable long id){
-     return   studentService.deleteStudentGetById(id);
-  }
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDto> updateGetById(@PathVariable(name = "id") long id, @RequestBody StudentDto studentDto) {
+        studentService.updateStudentGetById(id,studentDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteStudent(@PathVariable long id) {
+         studentService.deleteStudentGetById(id);
+
+         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
 }

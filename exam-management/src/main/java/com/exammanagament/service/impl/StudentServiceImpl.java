@@ -2,58 +2,59 @@ package com.exammanagament.service.impl;
 
 import com.exammanagament.dto.StudentDto;
 import com.exammanagament.entity.Student;
+import com.exammanagament.exception.NotFoundException;
 import com.exammanagament.map.StudentMap;
 import com.exammanagament.repository.StudentRepository;
 import com.exammanagament.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
-private final StudentRepository repository;
-private final StudentMap studentMap;
+    private final StudentRepository repository;
+    private final StudentMap studentMap;
 
     @Override
-    public StudentDto createStudent(StudentDto studentDto) {
-        return studentMap.mapToStudentDto(repository.save(studentMap.mapToStudent(studentDto))) ;
+    @Transactional
+    public void createStudent(StudentDto studentDto) {
+        Student student = studentMap.mapToStudent(studentDto);
+        repository.save(student);
     }
+
     @Override
     public List<StudentDto> readAllStudents() {
         return repository.findAll().stream()
                 .map(studentMap::mapToStudentDto)
                 .toList();
     }
+
     @Override
-    public StudentDto updateStudentGetById(Long id, StudentDto studentDto) {
-        Student oldStudent=repository.findById(id).orElse(null);
-        if (oldStudent != null){
-            studentDto.setEmail(studentDto.getEmail());
-            studentDto.setBirth_date(studentDto.getBirth_date());
-            studentDto.setPhone_number(studentDto.getPhone_number());
-            studentDto.setStatus(studentDto.getStatus());
-            studentDto.setName(studentDto.getName());
-            studentDto.setSurname(studentDto.getSurname());
-            return studentMap.mapToStudentDto(repository.save(studentMap.mapToStudent(studentDto)));
-        }else {
-            return null;
-        }
+    @Transactional(rollbackFor = {SQLException.class , RuntimeException.class})
+    public void updateStudentGetById(Long id, StudentDto studentDto) {
+        Student student = repository.findById(id).orElseThrow(() -> new NotFoundException("Bu idli student tapilmadi: " + id));
+        studentMap.updateStudentFromDTO(studentDto, student);
+        repository.save(student);
     }
 
     @Override
-    public String deleteStudentGetById(Long id) {
-        if (repository.existsById(id)){
+    @Transactional(rollbackFor = {SQLException.class , RuntimeException.class })
+    public void deleteStudentGetById(Long id) {
+        if (repository.existsById(id)) {
             repository.deleteById(id);
-            return "silindi";
-        }else {
-            return "bele bir id-li student tapilmadi";
-        }
+
+        }else throw new NotFoundException("Bu idli student tapılmadı: "+id);
+
+
     }
 
     @Override
-    public StudentDto studentGetById(Long id) {
-        return studentMap.mapToStudentDto(repository.findById(id).orElse(null));
+    public StudentDto getStudentById(Long id) {
+        Student student = repository.findById(id).orElseThrow(() -> new NotFoundException("Bu idli user yoxdur: " + id));
+        return studentMap.mapToStudentDto(student);
     }
 }

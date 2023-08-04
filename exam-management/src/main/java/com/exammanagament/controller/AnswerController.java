@@ -14,7 +14,7 @@ import org.springframework.web.service.annotation.GetExchange;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/answer")
+@RequestMapping("/api/v1/answers")
 public class AnswerController {
 
     private AnswerService answerService;
