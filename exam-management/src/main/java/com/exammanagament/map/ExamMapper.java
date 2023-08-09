@@ -40,7 +40,6 @@ public interface ExamMapper {
               .stream()
               .map(examQuestion -> examQuestion.getQuestion().getId())
               .collect(Collectors.toSet());
-
     }
 
     default Set<Long> mapExamStudentsToIds(Set<ExamStudent> examStudents) {
