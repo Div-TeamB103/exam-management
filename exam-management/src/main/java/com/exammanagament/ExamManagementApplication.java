@@ -13,7 +13,7 @@ public class ExamManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExamManagementApplication.class, args);
-	
+
 
 	}
 
