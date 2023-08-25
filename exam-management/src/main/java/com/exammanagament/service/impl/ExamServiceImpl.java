@@ -54,7 +54,7 @@ public class ExamServiceImpl implements ExamService {
 
         mapper.updateExamFromDTO(examDTO, exam);
         exam.setExamType(mapper.mapLongToExamType(examDTO.getExamTypeId()));
-        exam.setAdmin(mapper.mapLongToExamAdmin(examDTO.getAdminId()));
+
 
         try {
 

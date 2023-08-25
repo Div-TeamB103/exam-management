@@ -1,10 +1,26 @@
 package com.exammanagament.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -48,5 +64,13 @@ public class User {
 
     @Column(name = "status")
     private Boolean status;
+
+
+    @ManyToMany(fetch =FetchType.LAZY , cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role",
+            joinColumns =@JoinColumn(name = "user_id" ,referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id" , referencedColumnName = "id")
+    )
+    private Set<Role> roles ;
 
 }

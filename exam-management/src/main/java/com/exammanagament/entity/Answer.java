@@ -1,6 +1,6 @@
 package com.exammanagament.entity;
 
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
+
 
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "answer")
-public class Answer {
+public class Answer  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

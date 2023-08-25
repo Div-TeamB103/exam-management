@@ -1,5 +1,6 @@
 package com.exammanagament.entity;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -15,13 +19,16 @@ import lombok.*;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "exam")
 public class Exam {
@@ -36,32 +43,32 @@ public class Exam {
     @Column(name = "start_date")
     private Instant startDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "admin_id")
-    private ExamAdmin admin;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_type_id")
     private ExamType examType;
 
-    @OneToMany(mappedBy = "exam"  ,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)//lazy for now
+    @JoinTable(name = "exam_student",
+            joinColumns = @JoinColumn(name = "exam_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
+
+    )
+    private List<User> userList;
+
+
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private Set<ExamQuestion> examQuestions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "exam" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
     private Set<ExamStudent> examStudents = new LinkedHashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Exam exam = (Exam) o;
-        return Objects.equals(id, exam.id) && Objects.equals(examName, exam.examName) && Objects.equals(startDate, exam.startDate);
-    }
+    @Column
+    @ManyToOne
+    @JoinColumn(name = "admin_id" , referencedColumnName = "id")
+    private User user ;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, examName, startDate);
-    }
+
 
     @Override
     public String toString() {
@@ -69,7 +76,7 @@ public class Exam {
                 "id=" + id +
                 ", examName='" + examName + '\'' +
                 ", startDate=" + startDate +
-                ", admin=" + admin +
+
                 ", examType=" + examType +
                 ", examQuestions=" + examQuestions +
                 ", examStudents=" + examStudents +
